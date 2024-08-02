@@ -1,11 +1,12 @@
-import { api } from "../../../shared/api";
-import { AppDispatch, AppState } from "../../../store";
+import { AppThunk } from "../../../store";
 import { usersSlice } from "../users.slice";
 
-export const fetchUsers = (dispatch: AppDispatch, getState: () => AppState) => {
-   const isIdle = usersSlice.selectors.selectIsFetchUsersIdle(getState());
+export const fetchUsers =
+  (): AppThunk => 
+   (dispatch, getState, { api }) => {
+    const isIdle = usersSlice.selectors.selectIsFetchUsersIdle(getState());
 
-    if(!isIdle) {
+    if (!isIdle) {
       return;
     }
     dispatch(usersSlice.actions.fetchUsersPending());
@@ -15,4 +16,4 @@ export const fetchUsers = (dispatch: AppDispatch, getState: () => AppState) => {
         dispatch(usersSlice.actions.fetchUsersSuccess({ users }));
       })
       .catch(() => dispatch(usersSlice.actions.fetchUsersFailed()));
-}
+  };

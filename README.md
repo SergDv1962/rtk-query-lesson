@@ -70,4 +70,6 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 6. Используем Thunk + typescript. Екстрааргумент
 7. Практика Thunk интеграция с react-router. Перша частина -
       -тут серед цього на 57:22 пояснення типізації при можливом User | undefound
-8. Практика Thunk интеграция с react-router
+8. Практика Thunk интеграция с react-router. Друга частина з 59:00
+    7 та 8 це використання Redux по старому
+

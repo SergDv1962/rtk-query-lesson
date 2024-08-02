@@ -1,30 +1,32 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { UserId, usersSlice } from "./users.slice";
 import { useAppDispath, useAppSelector } from "../../store";
-import { useEffect } from "react";
-import { fetchUser } from "./model/fetch-user";
+import { deleteUser } from "./model/delete-user";
 
 export function UserInfo() {
   const dispatch = useAppDispath();
   const navigate = useNavigate();
-  const { id = '' } = useParams<{ id: UserId }>();
+  const { id = "" } = useParams<{ id: UserId }>();
   const isPending = useAppSelector(
     usersSlice.selectors.selectIsFetchUserPending
+  );
+  const isDeletePending = useAppSelector(
+    usersSlice.selectors.selectIsDeleteUserPending
   );
   const user = useAppSelector((state) =>
     usersSlice.selectors.selectUserById(state, id)
   );
 
-  useEffect(() => {
-    dispatch(fetchUser(id))
-  }, [dispatch, id])
-
   const handleBackButtonClick = () => {
     navigate("..", { relative: "path" });
   };
 
-  if(isPending || !user) {
-    return <div>Loading...</div>
+  const handleDeleteButtonClick = () => {
+    dispatch(deleteUser(id)).then(() => navigate("..", { relative: "path" }));
+  };
+
+  if (isPending || !user) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -37,6 +39,13 @@ export function UserInfo() {
       </button>
       <h2 className="text-3xl">{user.name}</h2>
       <p className="text-xl">{user.description}</p>
+      <button
+        onClick={handleDeleteButtonClick}
+        className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded md"
+        disabled={isDeletePending}
+      >
+        Delete
+      </button>
     </div>
   );
 }

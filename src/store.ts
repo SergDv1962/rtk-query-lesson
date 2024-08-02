@@ -7,11 +7,8 @@ import {
 import { useDispatch, useSelector, useStore } from "react-redux";
 import { usersSlice } from "./modules/users/users.slice";
 import { countersReducer } from "./modules/counters/counters.slice";
-import { api } from "./shared/api";
+import { extraArgument } from "./extra-argument";
 
-const extraArgument = {
-  api,
-};
 
 export const store = configureStore({
   reducer: {

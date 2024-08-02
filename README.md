@@ -74,4 +74,5 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 8. Практика Thunk интеграция с react-router. Друга частина з 59:00.
     7 та 8 це використання Redux по старому
 9. Небольшой рефакторинг. Потрібен потім для AsynkThunk
+10. Подход 3: createAsynkThunk
 

@@ -1,6 +1,7 @@
 import {
   ThunkAction,
   UnknownAction,
+  createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
 import { useDispatch, useSelector, useStore } from "react-redux";
@@ -19,3 +20,8 @@ export const useAppSelector = useSelector.withTypes<AppState>();
 export const useAppDispath = useDispatch.withTypes<AppDispatch>();
 export const useAppStore = useStore.withTypes<typeof store>();
 export const createAppSelector = createSelector.withTypes<AppState>();
+export const createAppAsyncThunk = createAsyncThunk.withTypes<{
+  state: AppState;
+  dispatch: AppDispatch;
+  extra: typeof extraArgument;
+}>();

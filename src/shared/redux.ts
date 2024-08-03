@@ -1,6 +1,8 @@
 import {
   ThunkAction,
   UnknownAction,
+  asyncThunkCreator,
+  buildCreateSlice,
   createAsyncThunk,
   createSelector,
 } from "@reduxjs/toolkit";
@@ -25,3 +27,9 @@ export const createAppAsyncThunk = createAsyncThunk.withTypes<{
   dispatch: AppDispatch;
   extra: typeof extraArgument;
 }>();
+
+export type extraArgument = typeof extraArgument;
+
+export const createSliceApp = buildCreateSlice({
+  creators: { asyncThunk: asyncThunkCreator}
+})

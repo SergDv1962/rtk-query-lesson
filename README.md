@@ -52,7 +52,7 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 8. -//-
 9. 01:16:44 - Небольшой рефакторинг
 10. 01:20:42 - Подход 3: createAsynkThunk
-01:33:34 - определяем asynkThunk внутри createSlice
+11. 01:33:34 - определяем asynkThunk внутри createSlice
 01:39:32 - Подход 4: RTK Query
 01:45:23 - Концепция RTK Query
 01:53:47 - Практика базовая практика RTK Query
@@ -75,4 +75,7 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
     7 та 8 це використання Redux по старому
 9. Небольшой рефакторинг. Потрібен потім для AsynkThunk
 10. Подход 3: createAsynkThunk
+11. определяем asynkThunk внутри createSlice
+
+### закінчили працювати з старими(магрінальними) засобами REDUX і переходимо до сучасного Redux Toolkit Query
 

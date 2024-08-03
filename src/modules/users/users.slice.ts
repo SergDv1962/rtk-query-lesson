@@ -1,5 +1,6 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSelector, PayloadAction } from "@reduxjs/toolkit";
 import { fetchUsers } from "./model/fetch-users";
+import { createSliceApp, extraArgument } from "../../shared/redux";
 
 export type UserId = string;
 export type User = {
@@ -28,12 +29,12 @@ export const initialUsersList: User[] = Array.from(
 const initialUsersState: UsersState = {
   entities: {},
   ids: [],
-  fetchUsersStatus: 'idle',
-  fetchUserStatus: 'idle',
-  deleteUserStatus: 'idle',
+  fetchUsersStatus: "idle",
+  fetchUserStatus: "idle",
+  deleteUserStatus: "idle",
 };
 
-export const usersSlice = createSlice({
+export const usersSlice = createSliceApp({
   name: "users",
   initialState: initialUsersState,
   selectors: {
@@ -45,7 +46,7 @@ export const usersSlice = createSlice({
       (ids, entities, sort) =>
         ids
           .map((id) => entities[id])
-          .filter((user):user is User => !!user)
+          .filter((user): user is User => !!user)
           .sort((a, b) => {
             if (sort === "asc") {
               return a.name.localeCompare(b.name);
@@ -59,49 +60,58 @@ export const usersSlice = createSlice({
     selectIsFetchUserPending: (state) => state.fetchUserStatus === "pending",
     selectIsDeleteUserPending: (state) => state.deleteUserStatus === "pending",
   },
-  reducers: {
-    fetchUserPending: (state) => {
-      state.fetchUserStatus = 'pending';
-    },
-    fetchUserSuccess: (state, action: PayloadAction<{ user: User}>) => {
-      const { user } = action.payload;
-
-      state.fetchUserStatus = 'success';
-      state.entities[user.id] = user;
-    },
-    fetchUserFailed: (state) => {
-      state.fetchUserStatus = 'failed';
-    },
-    deleteUserPending: (state) => {
+  reducers: (creator) => ({
+    fetchUser: creator.asyncThunk<
+      User,
+      { userId: UserId },
+      { extra: extraArgument }
+    >((params, thunkAPI) => {
+        return thunkAPI.extra.api.getUser(params.userId)
+    }, {
+      pending: (state) => {
+        state.fetchUserStatus = 'pending';
+      },
+      fulfilled: (state, action) => {
+        const user = action.payload;
+  
+        state.fetchUserStatus = 'success';
+        state.entities[user.id] = user;
+      },
+      rejected: (state) => {
+        state.fetchUserStatus = 'failed';
+      },
+    }),
+    
+    deleteUserPending: creator.reducer((state) => {
       state.deleteUserStatus = 'pending';
-    },
-    deleteUserSuccess: (state, action: PayloadAction<{ userId: UserId }>) => {
+    }),
+    deleteUserSuccess: creator.reducer((state, action: PayloadAction<{ userId: UserId }>) => {
       state.deleteUserStatus = 'success';
       
       delete state.entities[action.payload.userId];
       state.ids = state.ids.filter(id => id !== action.payload.userId)
-    },
-    deleteUserFailed: (state) => {
+    }),
+    deleteUserFailed: creator.reducer((state) => {
       state.deleteUserStatus = 'failed';
-    },
-  },
-  extraReducers: builder => {
+    }),
+  }),
+  extraReducers: (builder) => {
     builder
-    .addCase(fetchUsers.pending, (state) => {
-      state.fetchUsersStatus = 'pending'
-    })
-    .addCase(fetchUsers.fulfilled, (state, action) => {
-      state.fetchUsersStatus = 'success';
-      const users = action.payload;
+      .addCase(fetchUsers.pending, (state) => {
+        state.fetchUsersStatus = "pending";
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.fetchUsersStatus = "success";
+        const users = action.payload;
 
-      state.entities = users.reduce((acc, user) => {
-        acc[user.id] = user;
-        return acc;
-      }, {} as Record<UserId, User>);
-      state.ids = users.map(user => user.id);
-    })
-    .addCase(fetchUsers.rejected, (state) => {
-      state.fetchUsersStatus = 'failed'
-    })
-  }
+        state.entities = users.reduce((acc, user) => {
+          acc[user.id] = user;
+          return acc;
+        }, {} as Record<UserId, User>);
+        state.ids = users.map((user) => user.id);
+      })
+      .addCase(fetchUsers.rejected, (state) => {
+        state.fetchUsersStatus = "failed";
+      });
+  },
 });

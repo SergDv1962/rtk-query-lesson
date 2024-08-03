@@ -12,7 +12,7 @@ export const usersApi = baseApi.injectEndpoints({
    endpoints: (create) => ({
       getUsers: create.query<User[], void>({
          query: () => '/users',
-         providesTags: ['Users'],
+         providesTags: ['Users', {type: 'Users', id: 'LIST'}],
          transformResponse: (res: unknown) => UseDtoSchema.array().parse(res),
       }),
       getUser: create.query<User, UserId>({
@@ -22,7 +22,6 @@ export const usersApi = baseApi.injectEndpoints({
       }),
       deleteUser: create.mutation<void, UserId>({
          query: (userId) => ({ method: 'DELETE', url: `./users/${userId}`}),
-         invalidatesTags: ['Users'],
       })
    }),
    overrideExisting: true, //потрібно завжди його використовувати(коли ти щось змінюєш то воно відразу відображається без перезагрузки сторінки)

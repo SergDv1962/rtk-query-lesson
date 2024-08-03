@@ -2,25 +2,30 @@ import { useNavigate, useParams } from "react-router-dom";
 import { UserId } from "./users.slice";
 import { usersApi } from "./api";
 import { skipToken } from "@reduxjs/toolkit/query";
+import { useAppDispath, useAppSelector } from "../../shared/redux";
+import { deleteUser } from "./model/delete-user";
 
 export function UserInfo() {
+  const dispatch = useAppDispath();
   const navigate = useNavigate();
   const { id = "" } = useParams<{ id: UserId }>();
 
-  const {data: user, isLoading: isLoadingUser } = usersApi.useGetUserQuery(
+  const { data: user, isLoading: isLoadingUser } = usersApi.useGetUserQuery(
     id ?? skipToken
-  )
+  );
 
-  const [deleteUser, { isLoading: isLoadingDelete }] = usersApi.useDeleteUserMutation()
+  const isLoadingDelete = useAppSelector(
+    (state) =>
+      usersApi.endpoints.deleteUser.select(id ?? skipToken)(state).isLoading
+  );
 
   const handleBackButtonClick = () => {
     navigate("..", { relative: "path" });
   };
 
   const handleDeleteButtonClick = async () => {
-    if(!id) return;
-    await deleteUser(id);
-    navigate("..", { relative: "path" });
+    if (!id) return;
+    dispatch(deleteUser(id));
   };
 
   if (isLoadingUser || !user) {

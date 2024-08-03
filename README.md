@@ -55,7 +55,7 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 11. 01:33:34 - определяем asynkThunk внутри createSlice
 01:39:32 - Подход 4: RTK Query
 01:45:23 - Концепция RTK Query
-01:53:47 - Практика базовая практика RTK Query
+12. 01:53:47 - Практика базовая практика RTK Query
 02:14:47 - Инвалидация и система тэгов 
 02:23:02 - Валидация ответа сервера
 02:25:12 - Работа с RTK Query без хуков
@@ -77,5 +77,8 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 10. Подход 3: createAsynkThunk
 11. определяем asynkThunk внутри createSlice
 
-### закінчили працювати з старими(магрінальними) засобами REDUX і переходимо до сучасного Redux Toolkit Query
+### закінчили працювати з старими(магрінальними) засобами REDUX і переходимо до сучасного Redux Toolkit Query - RTK Query
 
+12. Практика базовая практика RTK Query
+хак RTK Query--skipToken-- Як що об'єкта запроса нема то виконувати запрос не потрібно
+Приклад:  usersApi.useGetUserQuery(id ?? skipToken)

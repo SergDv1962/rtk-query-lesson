@@ -87,3 +87,8 @@ https://www.youtube.com/watch?v=9NVDzMW6b1k&t=483s
 14. Валидация ответа сервера (використання валідації з пакетом zod, теж саме див.№1)
 15. Работа с RTK Query без хуков
 16. RTK Query + Thunk для сложных мутаций
+
+## Репо на мойому GitHub 
+ім'я репо:  rtk-query-lesson
+адреса посилання: https://github.com/SergDv1962/rtk-query-lesson
+створено: 27.07-03.08.24
